@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: paymentservice-config
+  namespace: ksana
+
+data:
+
+  SERVER_PORT: "8765"
+
+  SPRING_APPLICATION_NAME: paymentservice
+
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/payment_db
+
+  SPRING_DATASOURCE_USERNAME: payment_user
+
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+
+  CONFIG_SERVER_URL: http://configserver:8888
+
+  EUREKA_URL: http://admin:admin123@discoveryservice:8761/eureka/

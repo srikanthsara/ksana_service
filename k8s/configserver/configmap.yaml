@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: configserver-config
+  namespace: ksana
+
+data:
+
+  SERVER_PORT: "8888"
+
+  SPRING_APPLICATION_NAME: configserver
+  CONFIG_REPO_URL: https://github.com/srikanthsara/microservice-config-repo.git
+  GIT_DEFAULT_LABEL: main
+  EUREKA_URL: "http://discoveryservice:8761/eureka/"
+  SPRING_PROFILES_ACTIVE: kubernetes
+  LOG_LEVEL: INFO

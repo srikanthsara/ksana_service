@@ -1,0 +1,109 @@
+CREATE DATABASE search_db;
+CREATE USER search_user WITH PASSWORD 'search_password';
+GRANT ALL PRIVILEGES ON DATABASE search_db TO search_user;
+
+GRANT USAGE ON SCHEMA public TO search_user;
+GRANT CREATE ON SCHEMA public TO search_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO search_user;
+BIGSERIAL
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO search_user;
+ALTER SCHEMA public OWNER TO search_user;
+SELECT current_user;
+
+Microsoft Windows [Version 10.0.26200.8457]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Windows\System32>psql -U postgres -p 5433
+Password for user postgres:
+
+psql (15.15)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=# CREATE DATABASE search_db;
+CREATE DATABASE
+postgres=# CREATE USER search_user WITH PASSWORD 'search_password';
+CREATE ROLE
+postgres=# GRANT ALL PRIVILEGES ON DATABASE search_db TO search_user;
+GRANT
+postgres=# GRANT USAGE ON SCHEMA public TO search_user;
+GRANT
+postgres=# GRANT CREATE ON SCHEMA public TO search_user;
+GRANT
+postgres=# GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO search_user;
+GRANT
+postgres=# BIGSERIAL
+postgres-# GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO search_user;
+ERROR:  syntax error at or near "BIGSERIAL"
+LINE 1: BIGSERIAL
+        ^
+postgres=# BIGSERIAL;
+ERROR:  syntax error at or near "BIGSERIAL"
+LINE 1: BIGSERIAL;
+        ^
+postgres=# GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO search_user;
+GRANT
+postgres=# ALTER SCHEMA public OWNER TO search_user;
+ALTER SCHEMA
+postgres=# SELECT current_user;
+ current_user
+--------------
+ postgres
+(1 row)
+
+
+postgres=# \l
+                                                          List of databases
+   Name    |  Owner   | Encoding |      Collate       |       Ctype        | ICU Locale | Locale Provider |    Access privileges
+-----------+----------+----------+--------------------+--------------------+------------+-----------------+--------------------------
+ ksana_db  | postgres | UTF8     | English_India.1252 | English_India.1252 |            | libc            | =Tc/postgres            +
+           |          |          |                    |                    |            |                 | postgres=CTc/postgres   +
+           |          |          |                    |                    |            |                 | ksana_user=CTc/postgres
+ postgres  | postgres | UTF8     | English_India.1252 | English_India.1252 |            | libc            |
+ search_db | postgres | UTF8     | English_India.1252 | English_India.1252 |            | libc            | =Tc/postgres            +
+           |          |          |                    |                    |            |                 | postgres=CTc/postgres   +
+           |          |          |                    |                    |            |                 | search_user=CTc/postgres
+ template0 | postgres | UTF8     | English_India.1252 | English_India.1252 |            | libc            | =c/postgres             +
+           |          |          |                    |                    |            |                 | postgres=CTc/postgres
+ template1 | postgres | UTF8     | English_India.1252 | English_India.1252 |            | libc            | =c/postgres             +
+           |          |          |                    |                    |            |                 | postgres=CTc/postgres
+(5 rows)
+
+
+postgres=# \c search_db
+You are now connected to database "search_db" as user "postgres".
+search_db=# SELECT current_database();
+ current_database
+------------------
+ search_db
+(1 row)
+
+
+search_db=# \du
+                                    List of roles
+  Role name  |                         Attributes                         | Member of
+-------------+------------------------------------------------------------+-----------
+ ksana_user  |                                                            | {}
+ postgres    | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+ search_user |                                                            | {}
+
+
+search_db=# ALTER SCHEMA public OWNER TO search_user;
+ALTER SCHEMA
+search_db=# GRANT ALL ON SCHEMA public TO search_user;
+GRANT
+search_db=# GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO search_user;
+GRANT
+search_db=# GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO search_user;
+GRANT
+search_db=# GRANT ALL PRIVILEGES ON DATABASE search_db TO search_user;
+GRANT
+search_db=# SELECT schema_name, schema_owner
+search_db-# FROM information_schema.schemata
+search_db-# WHERE schema_name = 'public';
+ schema_name | schema_owner
+-------------+--------------
+ public      | search_user
+(1 row)

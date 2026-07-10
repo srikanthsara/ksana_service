@@ -1,0 +1,18 @@
+.app-header {
+
+    background-color:
+        var(--header-color);
+}
+
+.app-footer {
+
+    background-color:
+        var(--footer-color);
+
+    color: white;
+}
+
+.page-container {
+
+    padding: 20px;
+}

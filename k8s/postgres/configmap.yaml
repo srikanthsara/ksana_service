@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: postgres-config
+  namespace: ksana
+
+data:
+
+  POSTGRES_DB: postgres
+
+  POSTGRES_INITDB_ARGS: "--encoding=UTF8"
+
+  TZ: Asia/Kolkata

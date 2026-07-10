@@ -1,0 +1,57 @@
+apiVersion: v1
+data:
+  init.sql: "-- ==========================================\r\n-- Create Databases\r\n--
+    ==========================================\r\n\r\nCREATE DATABASE auth_db;\r\nCREATE
+    DATABASE cart_db;\r\nCREATE DATABASE order_db;\r\nCREATE DATABASE payment_db;\r\nCREATE
+    DATABASE search_db;\r\n\r\n-- ==========================================\r\n--
+    Create Users\r\n-- ==========================================\r\n\r\nCREATE USER
+    auth_user WITH PASSWORD 'auth_password';\r\nCREATE USER cart_user WITH PASSWORD
+    'cart_password';\r\nCREATE USER order_user WITH PASSWORD 'order_password';\r\nCREATE
+    USER payment_user WITH PASSWORD 'payment_password';\r\nCREATE USER search_user
+    WITH PASSWORD 'search_password';\r\n\r\n-- ==========================================\r\n--
+    Database Privileges\r\n-- ==========================================\r\n\r\nGRANT
+    ALL PRIVILEGES ON DATABASE auth_db TO auth_user;\r\nGRANT ALL PRIVILEGES ON DATABASE
+    cart_db TO cart_user;\r\nGRANT ALL PRIVILEGES ON DATABASE order_db TO order_user;\r\nGRANT
+    ALL PRIVILEGES ON DATABASE payment_db TO payment_user;\r\nGRANT ALL PRIVILEGES
+    ON DATABASE search_db TO search_user;\r\n\r\n-- ==================================================\r\n--After
+    creating the databases, PostgreSQL still leaves the public schema owned by postgres.\r\n--Flyway
+    needs CREATE permission on the schema.\r\n-- ==================================================\r\n\r\nALTER
+    DATABASE auth_db OWNER TO auth_user;\r\n\r\n\\connect auth_db\r\n\r\nGRANT ALL
+    ON SCHEMA public TO auth_user;\r\nALTER SCHEMA public OWNER TO auth_user;\r\nGRANT
+    ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO auth_user;\r\nGRANT ALL PRIVILEGES
+    ON ALL SEQUENCES IN SCHEMA public TO auth_user;\r\nALTER DEFAULT PRIVILEGES IN
+    SCHEMA public\r\nGRANT ALL ON TABLES TO auth_user;\r\nALTER DEFAULT PRIVILEGES
+    IN SCHEMA public\r\nGRANT ALL ON SEQUENCES TO auth_user;\r\n\r\n\r\n-- ==================================================\r\n--
+    cart_db permission\r\n-- ==================================================\r\n\r\n\r\nALTER
+    DATABASE cart_db OWNER TO cart_user;\r\n\r\n\\connect cart_db\r\n\r\nGRANT ALL
+    ON SCHEMA public TO cart_user;\r\nALTER SCHEMA public OWNER TO cart_user;\r\nGRANT
+    ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO cart_user;\r\nGRANT ALL PRIVILEGES
+    ON ALL SEQUENCES IN SCHEMA public TO cart_user;\r\nALTER DEFAULT PRIVILEGES IN
+    SCHEMA public\r\nGRANT ALL ON TABLES TO cart_user;\r\nALTER DEFAULT PRIVILEGES
+    IN SCHEMA public\r\nGRANT ALL ON SEQUENCES TO cart_user;\r\n\r\n\r\n-- ==================================================\r\n--
+    order_db permission\r\n-- ==================================================\r\nALTER
+    DATABASE order_db OWNER TO order_user;\r\n\r\n\\connect order_db\r\n\r\nGRANT
+    ALL ON SCHEMA public TO order_user;\r\nALTER SCHEMA public OWNER TO order_user;\r\nGRANT
+    ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO order_user;\r\nGRANT ALL PRIVILEGES
+    ON ALL SEQUENCES IN SCHEMA public TO order_user;\r\nALTER DEFAULT PRIVILEGES IN
+    SCHEMA public\r\nGRANT ALL ON TABLES TO order_user;\r\nALTER DEFAULT PRIVILEGES
+    IN SCHEMA public\r\nGRANT ALL ON SEQUENCES TO order_user;\r\n\r\n-- ==================================================\r\n--
+    payment_db permission\r\n-- ==================================================\r\nALTER
+    DATABASE payment_db OWNER TO payment_user;\r\n\r\n\\connect payment_db\r\n\r\nGRANT
+    ALL ON SCHEMA public TO payment_user;\r\nALTER SCHEMA public OWNER TO payment_user;\r\nGRANT
+    ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO payment_user;\r\nGRANT ALL PRIVILEGES
+    ON ALL SEQUENCES IN SCHEMA public TO payment_user;\r\nALTER DEFAULT PRIVILEGES
+    IN SCHEMA public\r\nGRANT ALL ON TABLES TO payment_user;\r\nALTER DEFAULT PRIVILEGES
+    IN SCHEMA public\r\nGRANT ALL ON SEQUENCES TO payment_user;\r\n\r\n-- ==================================================\r\n--
+    search_db permission\r\n-- ==================================================\r\nALTER
+    DATABASE search_db OWNER TO search_user;\r\n\r\n\\connect search_db\r\n\r\nGRANT
+    ALL ON SCHEMA public TO search_user;\r\nALTER SCHEMA public OWNER TO search_user;\r\nGRANT
+    ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO search_user;\r\nGRANT ALL PRIVILEGES
+    ON ALL SEQUENCES IN SCHEMA public TO search_user;\r\nALTER DEFAULT PRIVILEGES
+    IN SCHEMA public\r\nGRANT ALL ON TABLES TO search_user;\r\nALTER DEFAULT PRIVILEGES
+    IN SCHEMA public\r\nGRANT ALL ON SEQUENCES TO search_user;"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: postgres-initdb
+  namespace: ksana

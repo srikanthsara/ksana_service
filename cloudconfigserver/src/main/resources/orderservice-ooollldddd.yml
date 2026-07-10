@@ -1,0 +1,12 @@
+order:
+
+  shipping:
+    charge: 100
+
+  discount:
+    default-discount: 200
+
+  status:
+    payment-pending: PENDING
+    inventory-pending: PENDING
+    order-created: ORDER_CREATED

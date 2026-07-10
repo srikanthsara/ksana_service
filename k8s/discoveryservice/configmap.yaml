@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: discoveryservice-config
+  namespace: ksana
+
+data:
+
+  SERVER_PORT: "8761"
+
+  SPRING_APPLICATION_NAME: discoveryservice
+
+  EUREKA_USER: admin
+
+  EUREKA_PASSWORD: admin123
+
+  LOG_LEVEL: INFO

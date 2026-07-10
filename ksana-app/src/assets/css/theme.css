@@ -1,0 +1,29 @@
+:root {
+
+    --primary-color: #198754;
+
+    --secondary-color: #0d6efd;
+
+    --danger-color: #dc3545;
+
+    --background-color: #f5f7fa;
+
+    --header-color: #198754;
+
+    --footer-color: #212529;
+
+    --card-radius: 12px;
+
+    --font-family:
+        "Segoe UI",
+        sans-serif;
+}
+
+body {
+
+    background-color:
+        var(--background-color);
+
+    font-family:
+        var(--font-family);
+}

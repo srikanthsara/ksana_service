@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: grocerysearchservice
+  namespace: ksana
+
+spec:
+
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: grocerysearchservice
+
+  template:
+
+    metadata:
+
+      labels:
+        app: grocerysearchservice
+
+    spec:
+
+
+      terminationGracePeriodSeconds: 30
+
+      containers:
+
+      - name: grocerysearchservice
+
+        image: ksana_service-grocerysearchservice:latest
+
+        imagePullPolicy: IfNotPresent
+
+        ports:
+
+        - containerPort: 8887
+
+        envFrom:
+
+        - configMapRef:
+            name: common-config
+
+        - configMapRef:
+            name: grocerysearchservice-config
+
+        - secretRef:
+            name: grocerysearchservice-secret
+
+        resources:
+
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"
+
+        readinessProbe:
+
+          httpGet:
+            path: /actuator/health
+            port: 8887
+
+          initialDelaySeconds: 60
+          periodSeconds: 15
+
+        livenessProbe:
+
+          httpGet:
+            path: /actuator/health
+            port: 8887
+
+          initialDelaySeconds: 120
+          periodSeconds: 30

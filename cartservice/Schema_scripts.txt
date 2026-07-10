@@ -1,0 +1,93 @@
+
+=====================================
+
+Microsoft Windows [Version 10.0.26200.8457]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Windows\System32>psql -U postgres -p 5433
+Password for user postgres:
+
+psql (15.15)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=# CREATE DATABASE cart_db;
+CREATE DATABASE
+postgres=# CREATE USER cart_user WITH PASSWORD 'cart_password';
+CREATE ROLE
+postgres=# GRANT ALL PRIVILEGES ON DATABASE cart_db TO cart_user;
+GRANT
+postgres=# ALTER SCHEMA public OWNER TO cart_user;
+ALTER SCHEMA
+postgres=# GRANT ALL ON SCHEMA public TO cart_user;
+GRANT
+postgres=# GRANT USAGE ON SCHEMA public TO cart_user;
+GRANT
+postgres=# GRANT CREATE ON SCHEMA public TO cart_user;
+GRANT
+postgres=# GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO cart_user;
+GRANT
+postgres=# GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO cart_user;
+GRANT
+postgres=#
+postgres=#
+postgres=# SELECT current_database();
+ current_database
+------------------
+ postgres
+(1 row)
+
+
+postgres=# \c cart_db
+You are now connected to database "cart_db" as user "postgres".
+cart_db=# SELECT current_database();
+ current_database
+------------------
+ cart_db
+(1 row)
+
+
+cart_db=# \du
+                                    List of roles
+  Role name  |                         Attributes                         | Member of
+-------------+------------------------------------------------------------+-----------
+ cart_user   |                                                            | {}
+ ksana_user  |                                                            | {}
+ postgres    | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+ search_user |                                                            | {}
+
+
+cart_db=# ALTER SCHEMA public OWNER TO cart_user;
+ALTER SCHEMA
+cart_db=# GRANT ALL ON SCHEMA public TO cart_user;
+GRANT
+cart_db=# GRANT ALL PRIVILEGES
+cart_db-# ON ALL TABLES IN SCHEMA public
+cart_db-# TO cart_user;
+GRANT
+cart_db=# BIGSERIAL
+cart_db-# GRANT ALL PRIVILEGES
+cart_db-# ON ALL SEQUENCES IN SCHEMA public
+cart_db-# TO cart_user;
+ERROR:  syntax error at or near "BIGSERIAL"
+LINE 1: BIGSERIAL
+        ^
+cart_db=# GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO cart_user;
+GRANT
+cart_db=# GRANT ALL PRIVILEGES ON DATABASE cart_db TO cart_user;
+GRANT
+cart_db=# SELECT schema_name, schema_owner FROM information_schema.schemata WHERE schema_name = 'public';
+ schema_name | schema_owner
+-------------+--------------
+ public      | cart_user
+(1 row)
+
+
+cart_db=# DROP TABLE IF EXISTS flyway_schema_history;
+NOTICE:  table "flyway_schema_history" does not exist, skipping
+DROP TABLE
+cart_db=#
+
+

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: authservice-config
+  namespace: ksana
+
+data:
+
+  SERVER_PORT: "8766"
+
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/auth_db
+
+  SPRING_DATASOURCE_USERNAME: auth_user
+
+  JWT_EXPIRATION: "86400000"

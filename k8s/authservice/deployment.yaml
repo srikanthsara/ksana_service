@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: authservice
+  namespace: ksana
+
+  labels:
+    app: authservice
+    component: backend
+    version: v1
+
+spec:
+
+  replicas: 1
+
+  strategy:
+
+    type: RollingUpdate
+
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+
+  selector:
+
+    matchLabels:
+      app: authservice
+
+  template:
+
+    metadata:
+
+      labels:
+        app: authservice
+        component: backend
+        version: v1
+
+    spec:
+
+      containers:
+
+      - name: authservice
+
+        image: ksana_service-authservice:latest
+
+        imagePullPolicy: IfNotPresent
+
+        ports:
+
+        - containerPort: 8766
+
+        envFrom:
+
+        - configMapRef:
+            name: common-config
+
+        - configMapRef:
+            name: authservice-config
+
+        - secretRef:
+            name: authservice-secret
+
+        
+        resources:
+
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"
+
+        readinessProbe:
+
+          httpGet:
+
+            path: /actuator/health
+
+            port: 8766
+
+          initialDelaySeconds: 40
+
+          timeoutSeconds: 5
+
+          periodSeconds: 15
+
+        livenessProbe:
+
+          httpGet:
+
+            path: /actuator/health
+
+            port: 8766
+
+          initialDelaySeconds: 90
+
+          timeoutSeconds: 5
+
+          periodSeconds: 30

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: authservice
+  namespace: ksana
+
+spec:
+
+  selector:
+    app: authservice
+
+  ports:
+
+  - name: http
+    port: 8766
+    targetPort: 8766
+
+  type: ClusterIP

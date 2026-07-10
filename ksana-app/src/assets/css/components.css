@@ -1,0 +1,24 @@
+.ksana-btn {
+
+    background-color:
+        var(--primary-color);
+
+    color: white;
+
+    border: none;
+}
+
+.ksana-btn:hover {
+
+    opacity: 0.9;
+}
+
+.ksana-card {
+
+    border-radius:
+        var(--card-radius);
+
+    box-shadow:
+        0px 2px 10px
+        rgba(0,0,0,0.1);
+}

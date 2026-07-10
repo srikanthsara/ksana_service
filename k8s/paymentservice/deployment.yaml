@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: paymentservice
+  namespace: ksana
+
+  labels:
+    app: paymentservice
+    component: backend
+    version: v1
+
+spec:
+
+  replicas: 1
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+
+  selector:
+    matchLabels:
+      app: paymentservice
+
+  template:
+
+    metadata:
+
+      labels:
+        app: paymentservice
+        component: backend
+        version: v1
+
+    spec:
+
+      terminationGracePeriodSeconds: 30
+
+      containers:
+
+        - name: paymentservice
+
+          image: ksana_service-paymentservice:latest
+          imagePullPolicy: IfNotPresent
+
+          ports:
+
+            - containerPort: 8765
+
+          envFrom:
+
+            - configMapRef:
+                name: common-config
+
+            - configMapRef:
+                name: paymentservice-config
+
+            - secretRef:
+                name: paymentservice-secret
+
+          resources:
+
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+
+          readinessProbe:
+
+            httpGet:
+              path: /actuator/health
+              port: 8765
+
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 5
+
+          livenessProbe:
+
+            httpGet:
+              path: /actuator/health
+              port: 8765
+
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 5

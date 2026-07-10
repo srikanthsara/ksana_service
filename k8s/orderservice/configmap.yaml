@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: orderservice-config
+  namespace: ksana
+
+data:
+
+  SERVER_PORT: "8764"
+
+  SPRING_APPLICATION_NAME: orderservice
+
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/order_db
+
+  SPRING_DATASOURCE_USERNAME: order_user
+
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+
+  CONFIG_SERVER_URL: http://configserver:8888
+
+  EUREKA_URL: http://admin:admin123@discoveryservice:8761/eureka/
+ 

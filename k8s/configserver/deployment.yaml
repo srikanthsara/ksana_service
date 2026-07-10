@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: configserver
+  namespace: ksana
+  labels:
+    app: configserver
+    component: backend
+    version: v1
+
+spec:
+  replicas: 1
+
+  strategy:
+    type: RollingUpdate
+
+  selector:
+    matchLabels:
+      app: configserver
+
+  template:
+    metadata:
+      labels:
+        app: configserver
+        component: backend
+        version: v1
+
+    spec:
+
+      
+      containers:
+        - name: configserver
+
+          image: ksana_service-configserver:latest
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 8888
+
+          envFrom:
+            - configMapRef:
+                name: common-config
+
+            - configMapRef:
+                name: configserver-config
+
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8888
+
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 5
+
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8888
+
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 5

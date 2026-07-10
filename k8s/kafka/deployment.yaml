@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: StatefulSet
+
+metadata:
+  name: kafka
+  namespace: ksana
+
+spec:
+  serviceName: kafka
+
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: kafka
+
+  template:
+
+    metadata:
+      labels:
+        app: kafka
+
+    spec:
+
+      containers:
+
+      - name: kafka
+
+        image: confluentinc/cp-kafka:7.5.0
+
+        imagePullPolicy: IfNotPresent
+
+        # -----------------------------------------------------
+        # TEMPORARY DEBUG MODE
+        # -----------------------------------------------------
+
+        command:
+          - /bin/bash
+
+        args:
+          - -c
+          - |
+            echo "=================================="
+            echo " Kafka Debug Container Started"
+            echo "=================================="
+            echo ""
+            echo "Sleeping forever..."
+            sleep infinity
+
+        # -----------------------------------------------------
+
+        ports:
+
+        - containerPort: 9092
+          name: kafka
+
+        envFrom:
+
+        - configMapRef:
+            name: kafka-config
+
+        resources:
+
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+
+          limits:
+            cpu: "500m"
+            memory: "512Mi"

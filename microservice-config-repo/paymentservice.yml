@@ -1,0 +1,44 @@
+server:
+  port: 8765
+
+spring:
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+  kafka:
+
+    bootstrap-servers: ${KAFKA_SERVERS}
+
+    consumer:
+
+      group-id: payment-group
+
+      auto-offset-reset: earliest
+
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+      properties:
+
+        spring.json.trusted.packages: "*"
+
+        spring.json.value.default.type: com.common.event.OrderCreatedEvent
+
+    producer:
+
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+info:
+  app:
+    name: Payment Service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}

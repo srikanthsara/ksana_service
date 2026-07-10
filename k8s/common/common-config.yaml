@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: common-config
+  namespace: ksana
+
+data:
+
+  CONFIG_SERVER_URL: http://configserver:8888
+  EUREKA_URL: http://discoveryservice:8761/eureka/
+  KAFKA_SERVERS: kafka:9092
+  SPRING_PROFILES_ACTIVE: kubernetes
+  LOGGING_LEVEL_ROOT: INFO

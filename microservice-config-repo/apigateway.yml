@@ -1,0 +1,41 @@
+server:
+  port: 9090
+
+spring:
+
+  cloud:
+    gateway:
+      routes:
+        - id: authservice
+          uri: lb://authservice
+          predicates:
+            - Path=/auth/**
+
+        - id: grocerysearchservice
+          uri: lb://grocerysearchservice
+          predicates:
+            - Path=/products/**
+
+        - id: cartservice
+          uri: lb://cartservice
+          predicates:
+            - Path=/cart/**
+
+        - id: orderservice
+          uri: lb://orderservice
+          predicates:
+            - Path=/orders/**
+
+        - id: paymentservice
+          uri: lb://paymentservice
+          predicates:
+            - Path=/payment/**
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}

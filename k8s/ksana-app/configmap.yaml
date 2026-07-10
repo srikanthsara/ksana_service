@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: ksana-app-config
+  namespace: ksana
+
+data:
+
+  VITE_API_BASE_URL: http://apigateway:9090
+
+  NODE_ENV: production

@@ -1,0 +1,3 @@
+<Header />
+<Page />
+<Footer />

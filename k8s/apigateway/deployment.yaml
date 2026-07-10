@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: apigateway
+  namespace: ksana
+
+  labels:
+    app: apigateway
+    component: backend
+    version: v1
+
+spec:
+
+  replicas: 1
+
+  strategy:
+    type: RollingUpdate
+
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+
+  selector:
+
+    matchLabels:
+      app: apigateway
+
+  template:
+
+    metadata:
+
+      labels:
+        app: apigateway
+        component: backend
+        version: v1
+
+    spec:
+
+
+
+      terminationGracePeriodSeconds: 30
+
+      containers:
+
+        - name: apigateway
+
+          image: ksana_service-apigateway:latest
+
+          imagePullPolicy: IfNotPresent
+
+          ports:
+
+            - containerPort: 9090
+
+          envFrom:
+
+            - configMapRef:
+                name: common-config
+
+            - configMapRef:
+                name: apigateway-config
+                
+            - secretRef:
+                name: apigateway-secret
+
+          resources:
+
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+
+          readinessProbe:
+
+            httpGet:
+              path: /actuator/health
+              port: 9090
+
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 5
+
+          livenessProbe:
+
+            httpGet:
+              path: /actuator/health
+              port: 9090
+
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 5

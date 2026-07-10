@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: cartservice-config
+  namespace: ksana
+
+data:
+
+  SERVER_PORT: "8763"
+
+  SPRING_APPLICATION_NAME: cartservice
+
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/cart_db
+
+  SPRING_DATASOURCE_USERNAME: cart_user
+
+  EUREKA_URL: http://admin:admin123@discoveryservice:8761/eureka/
+
+  CONFIG_SERVER_URL: http://configserver:8888
+
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092

@@ -1,0 +1,23 @@
+spring:
+
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVERS}
+
+  cloud:
+
+    config:
+      uri: ${CONFIG_SERVER_URL}
+
+eureka:
+
+  client:
+
+    service-url:
+
+      defaultZone: ${EUREKA_URL}
+
+  instance:
+
+    prefer-ip-address: true
+
+    hostname: ${HOSTNAME}
